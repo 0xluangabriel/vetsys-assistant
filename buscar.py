@@ -1,41 +1,34 @@
 from dotenv import load_dotenv
-from langchain_google_genai import GoogleGenerativeAIEmbeddings, ChatGoogleGenerativeAI
+from langchain_google_genai import GoogleGenerativeAIEmbeddings
 from langchain_chroma import Chroma
 
 load_dotenv()
 
-MODELO = "gemini-3.5-flash-lite"
-
 embeddings = GoogleGenerativeAIEmbeddings(model="gemini-embedding-001")
 banco = Chroma(persist_directory="chroma_db", embedding_function=embeddings)
-llm = ChatGoogleGenerativeAI(model=MODELO)
 
-# daqui para baixo: a pergunta, a busca, o contexto, o prompt e a resposta
 
-pergunta = "qual é a melhor ração para filhotes?"
-resultados = banco.similarity_search(pergunta, k=3)
+def buscar_documentos(pergunta: str):
+    """Busca nos documentos internos da clínica as informações gerais e regras:
+    protocolos de vacinação, preparo e cuidados de castração e exames, preços,
+    agendamento, cancelamento, formas de pagamento, horários e serviços.
+    Use para perguntas sobre como a clínica funciona ou sobre orientações gerais.
+    NÃO use para dados de um animal específico (vacinas aplicadas, histórico):
+    para isso, use as ferramentas da API.
+    Devolve trechos dos documentos, cada um com a sua fonte (arquivo e seção)."""
+    resultados = banco.similarity_search(pergunta, k=3)
 
-contexto = ""
-blocos = []
+    blocos = []
+    for resultado in resultados:
+        fonte = "[Fonte: {}, seção {}]".format(
+            resultado.metadata["arquivo"],
+            resultado.metadata.get("secao", "introdução"),
+        )
+        bloco = fonte + "\n" + resultado.page_content
+        blocos.append(bloco)
 
-for resultado in resultados:
-    fonte = "[Fonte: {}, seção {}]".format(resultado.metadata["arquivo"], resultado.metadata.get("secao", "introdução"))
-    bloco = fonte + "\n" + resultado.page_content
-    blocos.append(bloco)
+    return "\n\n".join(blocos)
 
-contexto = "\n\n".join(blocos)
 
-prompt = f"""Você é o assistente da Clínica Veterinária VetSys.
-Responda à pergunta do tutor usando SOMENTE as informações do contexto abaixo.
-Se a resposta não estiver no contexto, diga exatamente:
-"Não encontrei essa informação nos documentos da clínica."
-Não invente valores, prazos nem procedimentos.
-No final, cite as fontes usadas, no formato (arquivo, seção).
-
-Contexto:
-{contexto}
-
-Pergunta: {pergunta}"""
-
-resposta = llm.invoke(prompt)
-print(resposta.text)
+if __name__ == "__main__":
+    print(buscar_documentos("posso pagar com boleto?"))
