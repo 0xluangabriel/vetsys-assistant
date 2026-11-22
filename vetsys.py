@@ -13,6 +13,8 @@ cabecalho = {}
 
 
 def fazer_login(cliente, email, senha):
+    """Faz login na VetSys API e devolve o cabeçalho Authorization com o token.
+    Lança RuntimeError se o login falhar."""
     login = cliente.post("/auth/login", data={"username": email, "password": senha})
     if login.status_code != 200:
         raise RuntimeError("Login falhou: e-mail ou senha incorretos.")
@@ -69,7 +71,3 @@ while True:
         break               
     except RuntimeError as erro:
         print(erro)
-
-print(buscar_animais("kiara"))
-print(buscar_animais("xyz"))
-print(ver_historico(1))
