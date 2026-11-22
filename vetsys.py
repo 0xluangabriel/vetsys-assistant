@@ -1,4 +1,5 @@
 from dotenv import load_dotenv
+from getpass import getpass
 import httpx
 import os
 
@@ -61,13 +62,12 @@ def ver_vacinas(id_animal: int):
         return "Você não está autorizado / Não tem permissão."
     return requisicao.json()
 
-from getpass import getpass
-
-while True:
-    email = input("E-mail: ")
-    senha = getpass("Senha: ")
-    try:
-        cabecalho.update(fazer_login(cliente, email, senha))
-        break               
-    except RuntimeError as erro:
-        print(erro)
+if __name__ == "__main__":
+    while True:
+        email = input("E-mail: ")
+        senha = getpass("Senha: ")
+        try:
+            cabecalho.update(fazer_login(cliente, email, senha))
+            break
+        except RuntimeError as erro:
+            print(erro)
