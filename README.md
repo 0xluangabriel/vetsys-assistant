@@ -211,15 +211,6 @@ vetsys-assistant/
 └── .python-version    # Python 3.13
 ```
 
-## Próximos passos
-
-- [ ] Ampliar a avaliação com perguntas novas, que não influenciaram o prompt
-- [ ] Comparar modelos (por exemplo, `gemini-3.5-flash-lite` e `gemini-3.8-flash`) com a mesma avaliação
-- [ ] Ferramenta de agendamento com confirmação humana antes de executar (*human-in-the-loop*), usando o `StateGraph` do LangGraph
-- [ ] Fazer o agente avisar quando encontrar um texto suspeito nos dados, em vez de apenas ignorá-lo
-- [ ] Rota de busca por nome na VetSys API
-- [ ] Interface web, expondo o agente por uma rota da VetSys API
-
 ---
 
 Desenvolvido por **Luan Gabriel Alves da Silva** · [LinkedIn](https://linkedin.com/in/luan-gabriel-silva) · [GitHub](https://github.com/0xluangabriel)
