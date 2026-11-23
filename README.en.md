@@ -215,15 +215,6 @@ vetsys-assistant/
 └── .python-version    # Python 3.13
 ```
 
-## Roadmap
-
-- [ ] Expand the evaluation with new questions that did not influence the prompt
-- [ ] Compare models (for example, `gemini-3.5-flash-lite` and `gemini-3.8-flash`) on the same evaluation
-- [ ] A scheduling tool with human confirmation before it runs (*human-in-the-loop*), built directly with LangGraph's `StateGraph`
-- [ ] Make the agent warn the user when it finds suspicious text in the data, instead of just ignoring it
-- [ ] A search-by-name route in the VetSys API
-- [ ] A web interface, exposing the agent through a VetSys API route
-
 ---
 
 Developed by **Luan Gabriel Alves da Silva** · [LinkedIn](https://linkedin.com/in/luan-gabriel-silva) · [GitHub](https://github.com/0xluangabriel)
